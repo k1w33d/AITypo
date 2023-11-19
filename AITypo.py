@@ -1,4 +1,6 @@
 import openai
+openai.api_key = None
+print("API Key cleared")
 import sys
 import os
 import pyperclip
@@ -8,11 +10,15 @@ from tkinter import messagebox
 from ttkthemes import ThemedTk
 import webbrowser
 
+print("Script started")
+
 # Constants and Configurations
 API_KEY_FILE = 'api_key.txt'
 ENGINE_NAME = 'text-davinci-002'
 MAX_TOKENS = 150
-api_key_window_open = False  # Flag to indicate if the API key window is open
+
+# Flag to indicate if the API key window is open
+api_key_window_open = False  
 
 # Variables to track clipboard changes
 original_clipboard_content = pyperclip.paste()
@@ -25,6 +31,7 @@ def open_api_website():
 # Function to display API key entry window
 def show_api_key_entry_window():
     global api_key_window_open
+    print("Trying to show API key entry window")
     if api_key_window_open:
         return  # Avoid opening a new window if one is already open
 
@@ -40,8 +47,7 @@ def show_api_key_entry_window():
                 messagebox.showinfo("API Key Saved", "Your API key has been saved.")
                 api_key_window_open = False  # Reset the flag when the window is closed
                 api_key_window.destroy()
-                # Re-initialize the API to ensure the key is set (optional)
-                openai.api_key = api_key
+                openai.api_key = api_key  # Re-initialize the API to ensure the key is set
             except Exception as e:
                 messagebox.showerror("Error", f"Error saving API key: {e}")
         else:
@@ -75,26 +81,16 @@ def get_api_key(file_path):
 
 # Function to initialize OpenAI API
 def initialize_openai_api():
-    global api_key_window_open
-    try:
-        api_key = get_api_key(API_KEY_FILE)
-        if api_key is None:
-            api_key_window_open = True
-            show_api_key_entry_window()
-            return  # Return early to avoid setting the API key if it's None
-        # Set the API key if it's found
-        openai.api_key = api_key
-    except Exception as e:
-        api_key_window_open = True
-        show_api_key_entry_window()
-        messagebox.showerror("Error", f"Error initializing API key: {e}")
+    print("Initializing OpenAI API")
+    show_api_key_entry_window()
 
-# Create a themed Tkinter window
+# Initialize Tkinter window
 window = ThemedTk(theme="arc")
 window.title("Text Correction with OpenAI")
+print("Tkinter window initialized")
 
-# Initialize OpenAI API
-initialize_openai_api()
+# Delay the initialization of OpenAI API
+window.after(100, initialize_openai_api)
 
 # Function to process text with OpenAI
 def process_text(text):
@@ -163,10 +159,6 @@ def exit_app():
             clear_clipboard()
     sys.exit(0)
 
-# Create a themed Tkinter window
-#window = ThemedTk(theme="arc")
-#window.title("Text Correction with OpenAI")
-
 # Create and configure GUI elements
 input_text_label = ttk.Label(window, text="Enter text to correct:")
 input_text_entry = ttk.Entry(window, width=50)
@@ -190,7 +182,9 @@ input_text_entry.bind("<Return>", process_and_update_gui)
 clear_clipboard()
 
 # Delay API initialization until after the mainloop has started
-window.after(100, initialize_openai_api)
+#window.after(100, initialize_openai_api)
 
 # Start the GUI event loop
+print("Starting Tkinter mainloop")
 window.mainloop()
+print("Tkinter mainloop ended")
