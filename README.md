@@ -43,9 +43,9 @@ Visit Python's official website (https://www.python.org/downloads/) and download
 Make sure to check the option that says "Add Python to PATH" during installation.
 
 ## Setting Up the Script
-1- Unpack Files: Create a new folder on your computer and unpack the contents of the zipped folder into it.
+1. Unpack Files: Create a new folder on your computer and unpack the contents of the zipped folder into it.
 
-2- Install Dependencies: The script requires certain Python packages to run. These are listed in the requirements.txt file. To install these packages, navigate to the folder containing the unpacked files in your command prompt or terminal, and run:
+2. Install Dependencies: The script requires certain Python packages to run. These are listed in the requirements.txt file. To install these packages, navigate to the folder containing the unpacked files in your command prompt or terminal, and run:
 
 ```sh
 pip install -r requirements.txt
@@ -53,9 +53,9 @@ pip install -r requirements.txt
 
 This command will automatically install all the necessary packages.
 
-4- API Key File: To use the OpenAI service, you need to obtain an API key from OpenAI. Once you have your API key, create a text file named api_key.txt in the same folder as the script and paste your API key there.
+3. API Key File: To use the OpenAI service, you need to obtain an API key from OpenAI. Once you have your API key, create a text file named api_key.txt in the same folder as the script and paste your API key there.
 
-5- Running the Script: To run the script, navigate to the folder containing the script in your command prompt or terminal and execute:
+4. Running the Script: To run the script, navigate to the folder containing the script in your command prompt or terminal and execute:
 
 ```sh
 python AITypo.py
@@ -70,12 +70,12 @@ python3 AITypo.py
 The GUI should appear, where you can start using the script to correct text.
 
 ## Usage Notes
--Ensure your OpenAI API key remains confidential; do not share the api_key.txt file with others.
--If you encounter any issues with the GUI, such as multiple windows opening, ensure that no duplicate calls are made to initialize the interface.
+- Ensure your OpenAI API key remains confidential; do not share the api_key.txt file with others.
+- If you encounter any issues with the GUI, such as multiple windows opening, ensure that no duplicate calls are made to initialize the interface.
 
 ## Troubleshooting
--If the GUI does not start, check that all required packages are installed and that Python is correctly added to your system's PATH.
--If you have problems with the OpenAI API, verify that your API key is valid and that you have not exceeded the usage limits.
+- If the GUI does not start, check that all required packages are installed and that Python is correctly added to your system's PATH.
+- If you have problems with the OpenAI API, verify that your API key is valid and that you have not exceeded the usage limits.
 
 ## Feedback and Support
 Since this script is shared personally with you, please reach out to me directly for support or feedback. Your input is greatly appreciated and will help improve the functionality of the script.
