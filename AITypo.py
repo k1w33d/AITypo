@@ -45,6 +45,8 @@ def show_api_key_entry_window():
                 with open(API_KEY_FILE, 'w') as file:
                     file.write(api_key)
                 messagebox.showinfo("API Key Saved", "Your API key has been saved.")
+                pyperclip.copy('')  # Clear the clipboard
+                print("Clipboard cleared after saving API key.")
                 api_key_window_open = False  # Reset the flag when the window is closed
                 api_key_window.destroy()
                 openai.api_key = api_key  # Re-initialize the API to ensure the key is set
@@ -74,15 +76,23 @@ def show_api_key_entry_window():
 
 # Function to read API key from a file
 def get_api_key(file_path):
+    placeholder_text = "Replace this text with your OpenAI API Key"
     if not os.path.exists(file_path) or os.stat(file_path).st_size == 0:
         return None  # Return None if the API key file is missing or empty
     with open(file_path, 'r') as file:
-        return file.read().strip()
+        key = file.read().strip()
+        if key == placeholder_text:
+            return None  # Return None if the file contains the placeholder text
+        return key
 
 # Function to initialize OpenAI API
 def initialize_openai_api():
     print("Initializing OpenAI API")
-    show_api_key_entry_window()
+    api_key = get_api_key(API_KEY_FILE)
+    if api_key is None:
+        show_api_key_entry_window()  # Show API key window if key is missing or invalid
+    else:
+        openai.api_key = api_key  # Set the API key if valid
 
 # Initialize Tkinter window
 window = ThemedTk(theme="arc")
@@ -106,7 +116,10 @@ def process_text(text):
         corrected_text = response.choices[0].text.strip()
         return corrected_text
     except Exception as e:
-        print(f"Error processing text with OpenAI: {e}")
+        error_message = str(e)
+        print(f"Error processing text with OpenAI: {error_message}")
+        if "Incorrect API key" in error_message:
+            show_api_key_entry_window()
         return None
 
 # Function to copy text to clipboard
@@ -188,3 +201,4 @@ clear_clipboard()
 print("Starting Tkinter mainloop")
 window.mainloop()
 print("Tkinter mainloop ended")
+
