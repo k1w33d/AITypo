@@ -14,7 +14,7 @@ print("Script started")
 
 # Constants and Configurations
 API_KEY_FILE = 'api_key.txt'
-ENGINE_NAME = 'text-davinci-002'
+ENGINE_NAME = 'gpt-3.5-turbo-instruct'
 MAX_TOKENS = 150
 
 # Flag to indicate if the API key window is open
