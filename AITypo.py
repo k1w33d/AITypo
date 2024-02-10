@@ -20,6 +20,8 @@ MAX_TOKENS = 150
 # Flag to indicate if the API key window is open
 api_key_window_open = False  
 
+print(openai.__version__)
+
 # Variables to track clipboard changes
 original_clipboard_content = pyperclip.paste()
 edited_content = original_clipboard_content
@@ -90,9 +92,11 @@ def initialize_openai_api():
     print("Initializing OpenAI API")
     api_key = get_api_key(API_KEY_FILE)
     if api_key is None:
-        show_api_key_entry_window()  # Show API key window if key is missing or invalid
+        show_api_key_entry_window()  
     else:
-        openai.api_key = api_key  # Set the API key if valid
+        openai.api_key = api_key  
+        global client  # Declare 'client' as global within this function
+        client = openai.OpenAI()  # Instantiate the client 
 
 # Initialize Tkinter window
 window = ThemedTk(theme="arc")
@@ -105,9 +109,11 @@ window.after(100, initialize_openai_api)
 # Function to process text with OpenAI
 def process_text(text):
     try:
+        global client
         prompt = f"Please correct only the grammatical errors in the following text in New Zealand English, and do not add or infer any additional content:\n\n{text}"
-        response = openai.Completion.create(
-            engine=ENGINE_NAME,
+        
+        response = client.completions.create(  # Use client here
+            model=ENGINE_NAME,
             prompt=prompt,
             max_tokens=MAX_TOKENS,
             temperature=0.1,
@@ -201,4 +207,3 @@ clear_clipboard()
 print("Starting Tkinter mainloop")
 window.mainloop()
 print("Tkinter mainloop ended")
-
